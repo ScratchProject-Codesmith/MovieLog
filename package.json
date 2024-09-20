@@ -1,0 +1,23 @@
+{
+  "name": "movielog",
+  "version": "1.0.0",
+  "description": "A log of watched/want to watch movies",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ScratchProject-Codesmith/MovieLog.git"
+  },
+  "keywords": [
+    "movies",
+    "favorites"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ScratchProject-Codesmith/MovieLog/issues"
+  },
+  "homepage": "https://github.com/ScratchProject-Codesmith/MovieLog#readme"
+}
