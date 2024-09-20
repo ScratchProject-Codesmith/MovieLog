@@ -1,0 +1,62 @@
+
+
+// Authentication States
+
+// To track if the user is logged in or not (default: false, user starts as logged out)
+const [isLoggedIn, setIsLoggedIn] = useState(false);
+// To store user profile information (default: null, because user data is not fetched initially)
+const [userData, setUserData] = useState(null);
+// To store authentication token for API requests (default: null, no token before login)
+const [authToken, setAuthToken] = useState(null);
+
+
+// Form Input States
+
+// To input username, password, and nickname from the login/signup form
+const [username, setUsername] = useState('');  // Default empty string for username input
+const [password, setPassword] = useState('');  // Default empty string for password input
+const [nickname, setNickname] = useState('');  // Default empty string for nickname input
+
+
+// Movie List States
+
+// To hold the list of movies the user wants to watch (default: empty array)
+const [moviesToWatch, setMoviesToWatch] = useState([]);
+// To hold the list of movies the user has already watched (default: empty array)
+const [moviesWatched, setMoviesWatched] = useState([]);
+
+
+// Selected Movie State
+
+// To store the details of the currently selected movie (default: null, no movie selected initially)
+const [selectedMovie, setSelectedMovie] = useState(null);
+
+
+// Search Functionality States
+
+// To track the current search input value (default: empty string)
+const [searchQuery, setSearchQuery] = useState('');
+// To store the list of movies returned from the search (default: empty array, no results initially)
+const [searchResults, setSearchResults] = useState([]);
+
+
+// Movie Notes and Comments States
+
+// To store the user's comments about a movie (default: empty array, no comments initially)
+const [movieComments, setMovieComments] = useState([]);
+// To store the user's notes on the selected movie (default: empty string, no notes initially)
+const [selectedMovieNotes, setSelectedMovieNotes] = useState('');
+
+
+// Calendar State
+
+// To track the selected date for movie viewing or notes (default: current date)
+const [selectedDate, setSelectedDate] = useState(new Date());
+
+
+// UI Control States
+
+// To show a loading state while fetching data (default: false, initially not loading)
+const [isLoading, setIsLoading] = useState(false);
+// To handle the display of any modals, like adding notes or editing a movie entry (default: false, modal closed initially)
+const [isModalOpen, setIsModalOpen] = useState(false);
