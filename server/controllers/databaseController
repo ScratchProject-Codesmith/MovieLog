@@ -5,51 +5,97 @@ const db = require('./model.js');
 
 const databaseController = {};
 
+
+databaseController.addUser = async (req, res, next) => {
+  const { firstname, lastname, username, password} = req.body;
+  const text = `INSERT INTO person(firstname, lastname, username, password)
+                 VALUES($1, $2, $3, $4)
+                 RETURNING *`;
+  const params = [firstname, lastname, username, password ];
+  try {
+    const result = await db.query(text, params);
+    res.locals.newUser = result;
+    return next();
+  } catch (error) {
+    return next({
+      log: `${error} occurred in databaseControoler.addUser`,
+    });
+  }
+};
+//title
+//overview
+//release_date
+//poster_path
+
 databaseController.addMovie = async (req, res, next) => {
   //will take the info from API and store in DB
-};
-
-
-
-
-databaseController.checkForUser = async (req,res,next) =>{
-const {firstname, lastname, password} = req.body;
+  const {title, overview, release_date, poster_path } = req.body;
+  const params = [title, overview, release_date, poster_path]
+  const text = `INSERT INTO movie (title, overview, release_date, poster_path)
+                VALUES($1,$2, $3, $4)
+                RETURNING *`
 
 try {
-    const text = `SELECT * FROM person p WHERE 
-    ${firstname} = p.firstname, 
-    ${lastname} =  p.lastname, 
-    ${password}= p.password`;
-
-    const params = [firstname, lastname, password];
-
-    const result = await db.query(text, params);
-    if (result ) 
-        //homepage
-    else //signup?
+    const result = await db.query(text,params);
+    res.locals.result = result;
+    return next()
+}
+catch(error){
+    return next({
+    log: `${error} occurred in databaseControoler.addMovie`
+    })
 }
 
 }
 
+databaseController.PersonMovie = async (req, res, next) =>{
+//will take personid from initial req.body and movieid from body after first middleware/addMovie
+const { movie_id, person_id} = req.body
+const params =[movie_id, person_id]
+const text = `INSERT INTO person_movie (person_id, movie_id) 
+                VALUES($1,$2)`;
 
-
-
-databaseController.addUser= async (req, res, next) =>{
-    const {firstname, lastname, password} = req.body;
-    const text = `INSERT INTO person(firstname, lastname, password)
-                 VALUES($1, $2, $3)
-                 RETURNING *`;
-    const params = {firstname, lastname, password}
     try {
-       const result = await db.query(text, params);
-       res.locals.newUser = result;
-       return next()
+        const result= await db.query(text,params);
+        res.locals.personMovie = result;
+        return next()
     }
-    catch(error) {
+    catch(error){
         return next({
-            log: `${error} occurred in databaseControoler.addUser`
+            log: 'error occured in PersonMovie middleware '
         })
     }
+};
 
+databaseController.getList = async (req,res,next)=>{
+    const {person_id} = req.body ?
+    //or need to take person first and last name, perform read operation to get person_id from database
+    //then do inner join? to 
 }
+
+
+
+
+// databaseController.checkForUser = async (req,res,next) =>{
+// const {firstname, lastname, password} = req.body;
+
+// try {
+//     const text = `SELECT * FROM person p WHERE 
+//     ${firstname} = p.firstname, 
+//     ${lastname} =  p.lastname, 
+//     ${password}= p.password`;
+
+//     const params = [firstname, lastname];
+
+//     const result = await db.query(text, params);
+//     if (result ) 
+//         //homepage
+//     else //signup?
+// }
+
+// }
+
+
+
+
 
