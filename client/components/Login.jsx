@@ -42,7 +42,7 @@ const Login = () => {
   };
 
   const handleTestRoute = () => {
-    navigate('/')
+    navigate('/App')
   }
 
   //Fields:
