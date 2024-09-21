@@ -16,13 +16,23 @@ module.exports = {
       directory: path.resolve(__dirname, 'build'),
       publicPath: '/',
     },
-    /*proxy: [
+    proxy: [
       {
-        context:
-        target:
-        secure:
+        context: ['/movies'],
+        target: 'http://localhost:3000',
+        secure: false,
       },
-    ],*/
+      {
+        context: ['/database'],
+        target: 'http://localhost:3000',
+        secure: false,
+      },
+      {
+        context: ['/api'],
+        target: 'http://localhost:3000',
+        secure: false,
+      },
+    ],
   },
   module: {
     rules: [
