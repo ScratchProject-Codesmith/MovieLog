@@ -7,6 +7,7 @@ const app = express();
 const PORT = 8080;
 
 const tmdbApiController = require('./controllers/tmdbApiController');
+const databaseRouter = require("./routes/databaseRouter");
 
 app.use(express.json())
 
@@ -24,6 +25,8 @@ app.get('/movies', tmdbApiController.getMovieDetails, (req,res)=> {
   .json({moviesWithTitle: res.locals.moviesWithTitle})
 });
 
+
+app.use('/database', databaseRouter);
 
 app.use((err, req, res, next) => {
   const defaultErr = {
