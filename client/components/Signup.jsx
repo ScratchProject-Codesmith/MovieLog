@@ -14,6 +14,8 @@ const Signup = () => {
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // Define the error state
+
 
   //handleSubmit//
   const handleSubmit = (e) => {
@@ -30,12 +32,16 @@ const Signup = () => {
         navigate('/login');
       })
       .catch((err) => {
-        styleError(err.message);
+        setError(err.message);
       });
   };
 
+  const handleTest = () => {
+    navigate('/')
+  }
+
   return (
-    <div classname='loginBox'>
+    <div className='loginBox'>
       <h2>Signup</h2>
       {error && <p className='error'>{error}</p>}
       <form id='signupForm' onSubmit={handleSubmit}>
@@ -68,6 +74,7 @@ const Signup = () => {
           required
         />
         <button type='submit'>Signup</button>
+        <button onClick={handleTest}>TESTROUTE</button>
       </form>
     </div>
   );
