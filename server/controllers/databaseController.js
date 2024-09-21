@@ -2,6 +2,17 @@ const db = require("../model.js");
 const jwt = require("jsonwebtoken"); // this is the token creator for auth.
 const bcrypt = require("bcrypt");
 
+////testing db queries 
+// const test = async () => {
+//   const name = "aitczak";
+//   const text = `SELECT * FROM person `;
+//   const res = await db.query(text);
+//   console.log(res);
+// };
+// test();
+
+
+
 const databaseController = {};
 
 databaseController.addUser = async (req, res, next) => {

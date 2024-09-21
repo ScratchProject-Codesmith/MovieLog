@@ -25,7 +25,7 @@ router.post("/signup", databaseController.addUser, async (req, res) => {
 
 
 //route to post new movie - database/movie
-router.post("/movie", databaseController.addMovie, databaseController.personMovie, (req, res) => {
+router.post("/movie", databaseController.addMovie, databaseController.PersonMovie, (req, res) => {
   return res.status(200).json(res.locals.movie);
 });
 
