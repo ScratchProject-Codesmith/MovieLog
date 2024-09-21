@@ -16,26 +16,24 @@ const AppContainer = () => {
   const handleLogout = () => setIsLoggedIn(false);
 
   return (
-    <div className="app-container">
+    <div className='app-container'>
       // If the user is logged in, display the main app interface
       <>
         // Render the Searchbar component for movie search
         <Searchbar />
-
         // Main content section for displaying the movie lists
-        <section className="app-content">
+        <section className='app-content'>
           // List of movies the user wants to watch (ToWatchList)
           <ToWatchList />
-
           // List of movies the user has already watched (WatchedList)
           <WatchedList />
         </section>
-
-        // Button to log the user out, which resets the app to the login/signup state
+        // Button to log the user out, which resets the app to the login/signup
+        state
         <button onClick={handleLogout}>Logout</button>
       </>
-      )}
     </div>
   );
+};
 
 export default AppContainer;
