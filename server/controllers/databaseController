@@ -5,28 +5,42 @@ const db = require('./model.js');
 
 const databaseController = {};
 
-databaseController.addMovie = async (req, res, next) => {
-  //will take the info from API and store in DB
+
+databaseController.addUser = async (req, res, next) => {
+  const { firstname, lastname, username, password} = req.body;
+  const text = `INSERT INTO person(firstname, lastname, username, password)
+                 VALUES($1, $2, $3, $4)
+                 RETURNING *`;
+  const params = [firstname, lastname, username, password ];
+  try {
+    const result = await db.query(text, params);
+    res.locals.newUser = result;
+    return next();
+  } catch (error) {
+    return next({
+      log: `${error} occurred in databaseControoler.addUser`,
+    });
+  }
 };
 
 
-
-
-databaseController.checkForUser = async (req,res,next) =>{
-const {firstname, lastname, password} = req.body;
+databaseController.addMovie = async (req, res, next) => {
+  //will take the info from API and store in DB
+  const {title, genre, release_date } = req.body;
+  const params = [title, genre, release_date]
+  const text = `INSERT INTO movie (title, genre, release_date)
+                VALUES($1,$2, $3)
+                RETURNING *`
 
 try {
-    const text = `SELECT * FROM person p WHERE 
-    ${firstname} = p.firstname, 
-    ${lastname} =  p.lastname, 
-    ${password}= p.password`;
-
-    const params = [firstname, lastname, password];
-
-    const result = await db.query(text, params);
-    if (result ) 
-        //homepage
-    else //signup?
+    const result = await db.query(text,params);
+    res.locals.result = result;
+    return next()
+}
+catch(error){
+    return next({
+    log: `${error} occurred in databaseControoler.addMovie`
+    })
 }
 
 }
@@ -34,22 +48,27 @@ try {
 
 
 
-databaseController.addUser= async (req, res, next) =>{
-    const {firstname, lastname, password} = req.body;
-    const text = `INSERT INTO person(firstname, lastname, password)
-                 VALUES($1, $2, $3)
-                 RETURNING *`;
-    const params = {firstname, lastname, password}
-    try {
-       const result = await db.query(text, params);
-       res.locals.newUser = result;
-       return next()
-    }
-    catch(error) {
-        return next({
-            log: `${error} occurred in databaseControoler.addUser`
-        })
-    }
 
-}
+// databaseController.checkForUser = async (req,res,next) =>{
+// const {firstname, lastname, password} = req.body;
+
+// try {
+//     const text = `SELECT * FROM person p WHERE 
+//     ${firstname} = p.firstname, 
+//     ${lastname} =  p.lastname, 
+//     ${password}= p.password`;
+
+//     const params = [firstname, lastname];
+
+//     const result = await db.query(text, params);
+//     if (result ) 
+//         //homepage
+//     else //signup?
+// }
+
+// }
+
+
+
+
 
