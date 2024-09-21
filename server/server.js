@@ -18,7 +18,7 @@ app.use(express.json());
 app.use("/database", databaseRouter);
 
 //app.use for API routes... just adding auth stuff - Sam
-app.use('/api', apiRoutes);
+// app.use('/api', apiRoutes);
 
 app.get('/', tmdbApiController.getConfig, (req, res) => {
   console.log(req);
@@ -48,5 +48,8 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
+
+
+
 
 module.exports = app;
