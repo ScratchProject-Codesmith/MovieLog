@@ -11,10 +11,17 @@ const tmdbApiController = require('./controllers/tmdbApiController');
 app.use(express.json())
 
 app.get('/', tmdbApiController.getConfig, (req,res)=> {
-  console.log(res.locals)
+  console.log(req)
   return res
   .status(200)
   .send({config: res.locals.config})
+});
+
+app.get('/movies', tmdbApiController.getMovieDetails, (req,res)=> {
+  console.log(res.locals.moviesWithTitle)
+  return res
+  .status(200)
+  .json({moviesWithTitle: res.locals.moviesWithTitle})
 });
 
 
