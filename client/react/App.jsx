@@ -1,13 +1,18 @@
 import React from 'react';
 import Searchbar from './Searchbar.jsx';
 import AppContainer from './AppContainer.jsx';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <div>
       In the app
-      <Searchbar />
-      <AppContainer />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<AppContainer />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
