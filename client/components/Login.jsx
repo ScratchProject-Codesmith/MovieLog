@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../reducers/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 //need is logged in state.
@@ -57,7 +58,7 @@ const Login = () => {
   //if loading, "LOGGING IN..." else 'Login'
 
   return (
-    <div classname='LoginBox'>
+    <div className='LoginBox'>
       <h2>LOGIN FOR MOVIE LOG, LOGGGGIN, KENNY LOGGINS</h2>
       {error && <p className='error'>{error}</p>}
       <form id='loginForm' onSubmit={handleSubmit}>
