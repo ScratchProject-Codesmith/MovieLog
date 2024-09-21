@@ -1,16 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Movie from './Movie';
 
-function ToWatchList() {
+const ToWatchList = () => {
+  const [toWatchMovies, setToWatchMovies] = useState([
+    { id: 1, title: 'Movie 1', comments: '' },
+    { id: 2, title: 'Movie 2', comments: '' },
+    { id: 3, title: 'Movie 3', comments: '' },
+  ]);
+
+  const handleMarkAsWatched = (id) => {
+    setToWatchMovies(toWatchMovies.filter((movie) => movie.id !== id));
+  };
+
+  const handleCommentChange = (id, newComment) => {
+    setToWatchMovies(
+      toWatchMovies.map((movie) =>
+        movie.id === id ? { ...movie, comments: newComment } : movie
+      )
+    );
+  };
+
   return (
-    <div>
-      This is the to-watch list
-      <Movie />
-      <Movie />
-      <Movie />
-      <Movie />
+    <div className="to-watch-list">
+      <h2>Movies to Watch</h2>
+      <ul>
+        {toWatchMovies.map((movie) => (
+          <Movie
+            key={movie.id}
+            movie={movie}
+            onCommentChange={handleCommentChange}
+            onActionClick={handleMarkAsWatched}
+            actionLabel="Mark as Watched"
+          />
+        ))}
+      </ul>
     </div>
   );
-}
+};
 
 export default ToWatchList;
