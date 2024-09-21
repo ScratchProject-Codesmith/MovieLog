@@ -2,13 +2,15 @@ const { Pool } = require("pg");
 //
 
 const PG_URI =
-  "postgresql://postgres.qhwfcjtprybjjybpqvsv:OwyeCRILE7RujF1B@aws-0-us-west-1.pooler.supabase.com:6543/postgres";
+  "postgresql://postgres.qhwfcjtprybjjybpqvsv:iwicqFdXaLc7IF2I@aws-0-us-west-1.pooler.supabase.com:6543/postgres";
 
 // create a new pool here using the connection string above
 const pool = new Pool({
   connectionString: PG_URI,
+  //   ssl: { rejectUnauthorized: false }
 });
 
+// console.log('connected to DB')
 
 module.exports = {
   query: (text, params, callback) => {
@@ -17,14 +19,16 @@ module.exports = {
   },
 };
 
-// const { Client } = require("pg");
-// const { post } = require("../routes/api");
+const db = require("../models/starWarsModels");
 
-// // Your Supabase connection string
-// const client = new Client({
-//   connectionString: "postgresql://username:password@dbhost:5432/database",
-//   ssl: { rejectUnauthorized: false }, // Use this option if you're connecting to a remote server with SSL enabled
-// });
+
+
+
+const text = 'INSERT INTO person(firstname, lastname, password) VALUES () RETURNING *'
+const text = ''
+
+
+
 
 // async function connectAndQuery() {
 //   try {
@@ -33,7 +37,7 @@ module.exports = {
 //     console.log("Connected to the database");
 
 //     // Example query
-//     const res = await client.query("SELECT * FROM your_table_name");
+//     const res = await client.query("SELECT * FROM person");
 //     console.log(res.rows); // Display the results
 //   } catch (err) {
 //     console.error("Error executing query", err);
@@ -44,7 +48,7 @@ module.exports = {
 // }
 
 // connectAndQuery();
-// //login
-// //post
-// //post
-// //get
+// // //login
+// // //post
+// // //post
+// // //get
