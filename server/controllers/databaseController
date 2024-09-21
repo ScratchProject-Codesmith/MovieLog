@@ -1,0 +1,55 @@
+const db = require('./model.js');
+// const path = require("path");
+// const express = require("express");
+
+
+const databaseController = {};
+
+databaseController.addMovie = async (req, res, next) => {
+  //will take the info from API and store in DB
+};
+
+
+
+
+databaseController.checkForUser = async (req,res,next) =>{
+const {firstname, lastname, password} = req.body;
+
+try {
+    const text = `SELECT * FROM person p WHERE 
+    ${firstname} = p.firstname, 
+    ${lastname} =  p.lastname, 
+    ${password}= p.password`;
+
+    const params = [firstname, lastname, password];
+
+    const result = await db.query(text, params);
+    if (result ) 
+        //homepage
+    else //signup?
+}
+
+}
+
+
+
+
+databaseController.addUser= async (req, res, next) =>{
+    const {firstname, lastname, password} = req.body;
+    const text = `INSERT INTO person(firstname, lastname, password)
+                 VALUES($1, $2, $3)
+                 RETURNING *`;
+    const params = {firstname, lastname, password}
+    try {
+       const result = await db.query(text, params);
+       res.locals.newUser = result;
+       return next()
+    }
+    catch(error) {
+        return next({
+            log: `${error} occurred in databaseControoler.addUser`
+        })
+    }
+
+}
+
