@@ -2,6 +2,7 @@
 
 const path = require("path");
 const express = require("express");
+const apiRoutes = require('./api')
 
 const app = express();
 const PORT = 8080;
@@ -9,6 +10,9 @@ const PORT = 8080;
 const tmdbApiController = require('./controllers/tmdbApiController');
 
 app.use(express.json())
+
+//app.use for API routes... just adding auth stuff - Sam
+app.use('api', apiRoutes)
 
 app.get('/', tmdbApiController.getConfig, (req,res)=> {
   console.log(req)
