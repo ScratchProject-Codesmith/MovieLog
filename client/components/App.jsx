@@ -1,13 +1,19 @@
-//It renders the AppContainer component, which controls the login/signup flow and app content
 import React from 'react';
-import AppContainer from './AppContainer';
+import AppContainer from '../components/AppContainer.jsx';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-const App = () => {
+function App() {
   return (
-    <div className="app">
-      <AppContainer />
+    <div>
+      In the app
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<AppContainer />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
-};
+}
 
 export default App;

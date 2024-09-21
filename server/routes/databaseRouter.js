@@ -1,7 +1,9 @@
 const express = require("express");
 const databaseController = require('../controllers/databaseControoler.js');
 const router = express.Router();
-
+const User = require('../model')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 //for routes coming to localhost:8080/database
 
 
