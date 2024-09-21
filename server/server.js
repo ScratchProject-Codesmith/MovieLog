@@ -3,14 +3,19 @@
 const path = require('path');
 const express = require('express');
 const apiRoutes = require('./routes/api');
+const databaseRouter = require("./routes/databaseRouter");
 
 const app = express();
 const PORT = 3000;
 
 const tmdbApiController = require('./controllers/tmdbApiController');
-const databaseRouter = require('./routes/databaseRouter');
+
 
 app.use(express.json());
+
+
+//all routes related to database queries
+app.use("/database", databaseRouter);
 
 //app.use for API routes... just adding auth stuff - Sam
 app.use('/api', apiRoutes);
@@ -25,7 +30,6 @@ app.get('/movies', tmdbApiController.getMovieDetails, (req, res) => {
   return res.status(200).json({ moviesWithTitle: res.locals.moviesWithTitle });
 });
 
-app.use('/database', databaseRouter);
 
 app.use((err, req, res, next) => {
   const defaultErr = {
