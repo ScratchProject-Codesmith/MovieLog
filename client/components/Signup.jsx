@@ -34,6 +34,10 @@ const Signup = () => {
       });
   };
 
+  const handleTest = () => {
+    navigate('/login')
+  }
+
   return (
     <div classname='loginBox'>
       <h2>Signup</h2>
@@ -68,6 +72,7 @@ const Signup = () => {
           required
         />
         <button type='submit'>Signup</button>
+        <button onClick={handleTest}>TESTROUTE</button>
       </form>
     </div>
   );

@@ -41,6 +41,10 @@ const Login = () => {
     navigate('/signup');
   };
 
+  const handleTestRoute = () => {
+    navigate('/')
+  }
+
   //Fields:
   //Div with Header for Title
   //Div to wrap form element
@@ -76,6 +80,7 @@ const Login = () => {
         </button>
       </form>
       <button onClick={handleClick}>Sign Up!</button>
+      <button onClick={handleTestRoute}>ROUTETEST</button>
     </div>
   );
 };
