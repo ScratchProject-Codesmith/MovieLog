@@ -1,45 +1,51 @@
-require('dotenv').config()
+require('dotenv').config();
 
 const express = require('express');
-const router = express.Router()
-const User = require('./model')///just importing my user model
-const jwt = require('jsonwebtoken')// this is the token creator for auth.
+const router = express.Router();
+const User = require('../model'); ///just importing my user model
+const jwt = require('jsonwebtoken'); // this is the token creator for auth.
 const bcrypt = require('bcrypt');
 
 router.post('/signup', async (req, res) => {
-    const { firstName, LastName, username, password } = req.body;
+  const { firstName, LastName, username, password } = req.body;
 
-    try {
-        const newUser = await User.createUser({ firstName, lastName, username, password });
-        res.status(201).json({
-            user: {
-                id: newUser.id,
-                firstName: newUser.first_name,
-                lastName: newUser.last_name,
-                username: newUser.username,
-            },
-        });
-    } catch (error) { 
-        res.status(400).json({ error: error.message });
-    }
+  try {
+    const newUser = await User.createUser({
+      firstName,
+      lastName,
+      username,
+      password,
+    });
+    res.status(201).json({
+      user: {
+        id: newUser.id,
+        firstName: newUser.first_name,
+        lastName: newUser.last_name,
+        username: newUser.username,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
-
 router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-    try {
-        const user = await User.findUserByUsername(username);
-        if (!user || !(await bcrypt.compare(password, user.hashed_password))) {
-            return res.status(401).json({ error: 'invalid username/password' });
-        }
-
-        //this is the token generator....
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h'})//can change this later if we like. 
-        res.json({ token });
-    } catch (error) {
-        res.status(500).json({ error: 'OOPS Login failed:' + error.message });
+  try {
+    const user = await User.findUserByUsername(username);
+    if (!user || !(await bcrypt.compare(password, user.hashed_password))) {
+      return res.status(401).json({ error: 'invalid username/password' });
     }
+
+    //this is the token generator....
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    }); //can change this later if we like.
+    res.json({ token });
+  } catch (error) {
+    res.status(500).json({ error: 'OOPS Login failed:' + error.message });
+  }
 });
 // not setup correctly
 
