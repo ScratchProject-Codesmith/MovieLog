@@ -1,6 +1,8 @@
 const db = require('./model.js');
 // const path = require("path");
 // const express = require("express");
+const jwt = require('jsonwebtoken')// this is the token creator for auth.
+const bcrypt = require('bcrypt');
 
 
 const databaseController = {};
