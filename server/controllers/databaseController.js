@@ -2,7 +2,7 @@ const db = require("../model.js");
 const jwt = require("jsonwebtoken"); // this is the token creator for auth.
 const bcrypt = require("bcrypt");
 
-////testing db queries 
+////testing db queries
 // const test = async () => {
 //   const name = "aitczak";
 //   const text = `SELECT * FROM person `;
@@ -11,17 +11,15 @@ const bcrypt = require("bcrypt");
 // };
 // test();
 
-
-
 const databaseController = {};
 
 databaseController.addUser = async (req, res, next) => {
-  const { firstname, lastname, username, password } = req.body;
+  const { firstName, lastName, username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   const text = `INSERT INTO person(firstname, lastname, username, password)
                  VALUES($1, $2, $3, $4)
                  RETURNING *`;
-  const params = [firstname, lastname, username, hashedPassword];
+  const params = [firstName, lastName, username, hashedPassword];
   try {
     const result = await db.query(text, params);
     console.log("newUserFromDB", result.rows[0]);
@@ -34,11 +32,11 @@ databaseController.addUser = async (req, res, next) => {
   }
 };
 
-databaseController.checkForUser = async (req, res, next) => {
+databaseController.verifyUser = async (req, res, next) => {
   const { username, password } = req.body;
-  const params = [username, password];
+  const params = [username];
   const text = `SELECT * FROM person p WHERE
-    username = $1 AND password = $2`;
+    username = $1`;
 
   try {
     const user = await db.query(text, params);
@@ -49,10 +47,12 @@ databaseController.checkForUser = async (req, res, next) => {
       expiresIn: "1h",
     });
     res.locals.jwt = token;
+    res.locals.user = user.rows[0];
+    //or {id: user.id, username: user.username}
     return next();
   } catch (error) {
     return next({
-      log: `${error} occurred while checking database for user information`,
+      log: `${error} occurred while verifying user in database`,
     });
   }
 };
@@ -60,15 +60,24 @@ databaseController.checkForUser = async (req, res, next) => {
 databaseController.addMovie = async (req, res, next) => {
   //will take the info from API and store in DB
   const { title, overview, release_date, poster_path } = req.body;
-  const params = [title, overview, release_date, poster_path];
-  const text = `INSERT INTO movie (title, overview, release_date, poster_path)
+  const params1 = [title];
+
+  const text1 = `SELECT from movie
+                  WHERE movie.title = $1`;
+
+  const params2 = [title, overview, release_date, poster_path];
+  const text2 = `INSERT INTO movie (title, overview, release_date, poster_path)
                 VALUES($1,$2, $3, $4)
                 RETURNING *`;
 
   try {
-    const movie = await db.query(text, params);
-    res.locals.movie_id = movie._id;
-    return next();
+    const verifyMovie = await db.query(text1, params1);
+    if (verifyMovie.rows.length > 0) {
+      res.locals.movie_id = verifyMovie.rows[0].id;
+      return next();
+    }
+    const addedMovie = await db.query(text2, params2);
+    res.locals.movie_id = addedMovie.rows[0].id;
   } catch (error) {
     return next({
       log: `${error} occurred in databaseControoler.addMovie`,
@@ -85,7 +94,8 @@ databaseController.PersonMovie = async (req, res, next) => {
 
   try {
     const result = await db.query(text, params);
-    res.locals.personMovie = result;
+    // res.locals.movie = result.rows[0].movie_id;
+    //already returning movieid on res.locals from previous middleware
     return next();
   } catch (error) {
     return next({
@@ -94,10 +104,44 @@ databaseController.PersonMovie = async (req, res, next) => {
   }
 };
 
-// databaseController.getList = async (req,res,next)=>{
-//     const {person_id} = req.body ?
-//     //or need to take person first and last name, perform read operation to get person_id from database
-//     //then do inner join? to
-// }
+databaseController.getToWatchList = async (req, res, next) => {
+  const { person_id } = req.body;
+  const text = `SELECT * FROM person_movie
+    WHERE person._id = $1`;
+  const params = [person_id];
+
+  try {
+    const toWatchList = await db.query(text, params);
+    if (toWatchList.rows.length > 0) {
+      res.locals.toWatchList = toWatchList[rows];
+      return next();
+    } else
+      throw new Error(console.log(`this person has no current To Watch List`));
+  } catch (error) {
+    return next({
+      log: `${error} occurred in databaseController.getList`,
+    });
+  }
+};
+
+//add query to get movie info
+databaseController.getMovieInfo = async (req, res, next) => {
+  const { movie_id } = req.body;
+
+  const text = `SELECT from movie
+              WHERE movie.id = $1`;
+
+  const params = [movie_id];
+
+  try {
+    const movieInfo = await db.query(text, params);
+    res.locals.movieInfo = movieInfo.rows[0];
+    return next();
+  } catch (error) {
+    return next({
+      log: `${error} occurred in databaseController getMovieInfo middleware`,
+    });
+  }
+};
 
 module.exports = databaseController;
