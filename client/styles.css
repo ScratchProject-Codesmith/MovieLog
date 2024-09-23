@@ -22,6 +22,29 @@ body {
   color: #333;
 }
 
+.LoginBox{
+}
+
+.loginCard{
+  display: flex;
+  flex-direction: column;
+  width: 20em;
+  padding: 2em;
+  margin: 2em;
+  border: 2px solid black;
+}
+
+#loginForm{
+  display: flex;
+  flex-direction: column;
+  width: 20em;
+}
+
+#loginHead{
+  display: flex;
+  flex-direction: row;
+}
+
 .app-container {
   display: flex;
   flex-direction: column;

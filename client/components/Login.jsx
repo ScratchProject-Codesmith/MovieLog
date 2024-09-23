@@ -59,6 +59,7 @@ const Login = () => {
 
   return (
     <div className='LoginBox'>
+      <div id="Logincard">
       <h2>MovieLog</h2>
       {error && <p className='error'>{error}</p>}
       <form id='loginForm' onSubmit={handleSubmit}>
@@ -81,6 +82,7 @@ const Login = () => {
         </button>
       </form>
       <button onClick={handleClick}>Sign Up!</button>
+      </div>
     </div>
   );
 };
