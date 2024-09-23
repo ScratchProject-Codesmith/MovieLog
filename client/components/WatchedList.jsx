@@ -3,9 +3,9 @@ import Movie from './Movie';
 
 const WatchedList = () => {
   const [watchedMovies, setWatchedMovies] = useState([
-    { id: 1, title: 'Movie 4', comments: '' },
-    { id: 2, title: 'Movie 5', comments: '' },
-    { id: 3, title: 'Movie 6', comments: '' },
+    { id: 1, title: 'Movie 4', comments: '', date: new Date().toLocaleDateString() },
+    { id: 2, title: 'Movie 5', comments: '', date: new Date().toLocaleDateString() },
+    { id: 3, title: 'Movie 6', comments: '', date: new Date().toLocaleDateString() },
   ]);
 
   const handleCommentChange = (id, newComment) => {
@@ -31,6 +31,7 @@ const WatchedList = () => {
             onCommentChange={handleCommentChange}
             onActionClick={handleInfoClick}
             actionLabel="Info"
+            showArrows={false}
           />
         ))}
       </ul>

@@ -3,9 +3,9 @@ import Movie from './Movie';
 
 const ToWatchList = () => {
   const [toWatchMovies, setToWatchMovies] = useState([
-    { id: 1, title: 'Movie 1', comments: '' },
-    { id: 2, title: 'Movie 2', comments: '' },
-    { id: 3, title: 'Movie 3', comments: '' },
+    { id: 1, title: 'Movie 1', comments: '', date: new Date().toLocaleDateString() },
+    { id: 2, title: 'Movie 2', comments: '', date: new Date().toLocaleDateString() },
+    { id: 3, title: 'Movie 3', comments: '', date: new Date().toLocaleDateString() },
   ]);
 
   const handleMarkAsWatched = (id) => {
@@ -22,7 +22,7 @@ const ToWatchList = () => {
 
   return (
     <div className="to-watch-list">
-      <h2>Movies to Watch</h2>
+      <h2>Want to Watch</h2>
       <ul>
         {toWatchMovies.map((movie) => (
           <Movie
@@ -31,6 +31,7 @@ const ToWatchList = () => {
             onCommentChange={handleCommentChange}
             onActionClick={handleMarkAsWatched}
             actionLabel="Mark as Watched"
+            showArrows={true}
           />
         ))}
       </ul>
