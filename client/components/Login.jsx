@@ -60,7 +60,9 @@ const Login = () => {
   return (
     <div className='login-page'>
       <div className="box">
-      <h2 className='movielog-title'>MovieLog</h2>
+      <h2 className='movielog-title'>
+  M<img src="https://img.icons8.com/?size=100&id=2791&format=png&color=1A1A1A" alt="O" style={{ width: '30px', verticalAlign: 'middle' }} />vieL<img src="https://img.icons8.com/?size=100&id=2791&format=png&color=1A1A1A" alt="O" style={{ width: '30px', verticalAlign: 'middle' }} />g
+</h2>
       {error && <p className='error'>{error}</p>}
       <form id='loginForm' onSubmit={handleSubmit}>
         <input
