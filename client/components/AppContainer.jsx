@@ -11,7 +11,7 @@ const AppContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
-  const [watchedMovies, setWatchedMovies] = useState({});
+  const [watchedMovies, setWatchedMovies] = useState([]);
   useEffect(() => {
     dispatch(getWatchedMovies(user.id))
       .unwrap()

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import SearchedMovieInput from './SearchedMovieInput';
 import { addWatchedMovie } from '../reducers/movieSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Movie = ({
   title,
   description,
   release,
   poster,
-  comments,
+  savedComment,
   /*onCommentChange,
   onMoveUp,
   onMoveDown,
@@ -19,6 +20,7 @@ const Movie = ({
   const image = `https://image.tmdb.org/t/p/original/${poster}`;
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(null);
+  const dispatch = useDispatch();
   function onCommentChange(value) {
     setComment(value);
   }
@@ -31,8 +33,13 @@ const Movie = ({
     setRating(false);
   }
 
+  const navigate = useNavigate();
+
   function onActionClick() {
+    console.log('onActionClick engaged');
+    console.log('Comment is: ' + comment);
     if (comment) {
+      console.log('Valid comment found. Sending post request');
       const movie = {
         title: title,
         overview: description,
@@ -40,8 +47,15 @@ const Movie = ({
         poster_path: poster,
       };
       //const id = useSelector((state) => state.auth.user.id);
-      addWatchedMovie(movie, 1, comment, rating);
+      dispatch(addWatchedMovie(movie, 1, comment, rating))
+        .unwrap()
+        .then(() => navigate('/App'));
     }
+  }
+
+  let userComment = '';
+  if (savedComment) {
+    userComment = savedCommentcomment;
   }
 
   return (
@@ -52,9 +66,9 @@ const Movie = ({
       <div className='movie-info'>
         <h3>{title}</h3>
         <p>Date: {release}</p>
+        <p>Your comments: {userComment}</p>
         <input
           type='text'
-          value={comments}
           placeholder='Your comments'
           onChange={(e) => onCommentChange(e.target.value)}
         />
