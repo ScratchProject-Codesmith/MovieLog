@@ -21,12 +21,12 @@ app.use('/database', databaseRouter);
 // app.use('/api', apiRoutes);
 
 app.get('/', tmdbApiController.getConfig, (req, res) => {
-  console.log(req);
+  //console.log(req);
   return res.status(200).send({ config: res.locals.config });
 });
 
 app.get('/movies/:query', tmdbApiController.getMovieDetails, (req, res) => {
-  console.log(res.locals.moviesWithTitle);
+  //console.log(res.locals.moviesWithTitle);
   return res.status(200).json(res.locals.moviesWithTitle);
 });
 
