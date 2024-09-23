@@ -58,19 +58,12 @@ databaseController.verifyUser = async (req, res, next) => {
 };
 
 
-//  title: movie.title,
-//         overview: movie.overview,
-//         release_date: movie.release_date,
-//         poster_path: movie.poster_path,
-//         user_id: user_id,
-//         comment: comment,
-//         rating: rating,
 
 databaseController.addMovie = async (req, res, next) => {
   //will take the info from API and store in DB
 
   const { title, overview, release_date, poster_path, comment, rating } = req.body;
-  // console.log(req.body)
+  console.log(`in add movie - `, req.body)
   // const params1 = [title];
 
   // const text1 = `SELECT * from movie
@@ -89,7 +82,7 @@ databaseController.addMovie = async (req, res, next) => {
     //   return next();
     // }
     const addedMovie = await db.query(text2, params2);
-    console.log(addedMovie.rows[0].id)
+    console.log(`want to see comment`,addedMovie.rows[0])
     res.locals.movie_id = addedMovie.rows[0].id;
     return next()
   } catch (error) {
@@ -102,11 +95,17 @@ databaseController.addMovie = async (req, res, next) => {
 databaseController.PersonMovie = async (req, res, next) => {
   //will take personid from initial req.body and movieid from body after first middleware/addMovie
   const { user_id } = req.body;
- 
-  // const newid = parseInt(id, 10);
+  
+
   const movie_id = res.locals.movie_id;
-  // console.log(newid);
-  const params = [user_id, movie_id];
+   const params = [user_id, movie_id];
+
+  // if (typeof movie_id === String){
+  //   const newid = parseInt(id, 10);
+  //   console.log(newid);
+  // }
+
+
    console.log(`in personMovie req.body`, params);
   const text = `INSERT INTO person_movie (person_id, movie_id) 
                 VALUES($1,$2) RETURNING *`;
@@ -128,7 +127,7 @@ databaseController.PersonMovie = async (req, res, next) => {
 
 
 
-
+//shifted all this into getMovieInfo
 databaseController.getToWatchList = async (req, res, next) => {
   const { person_id } = req.body;
   const text = `SELECT * FROM movie m
@@ -140,6 +139,7 @@ databaseController.getToWatchList = async (req, res, next) => {
     const toWatchList = await db.query(text, params);
     if (toWatchList.rows.length > 0) {
       res.locals.toWatchList = toWatchList;
+      console.log(toWatchList)
       return next();
     } else {
       return res.status(404).json({error: `this person has no movies in their watch list`})
@@ -171,7 +171,7 @@ console.log(newid)
 
   try {
     const movieInfo = await db.query(text, params);
-    // console.log(movieInfo.rows[0])
+
     if (movieInfo.rows.length === 0){
       return res.status(404).json({error: 'movie not found'})
     }
