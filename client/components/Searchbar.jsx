@@ -2,17 +2,27 @@
 // It has an input field and a search button, and calls a function when the search is initiated
 
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import {
+  searchMovieDatabase,
+  searchMovies,
+  updateSearchQuery,
+} from '../reducers/movieSlice';
 
 const Searchbar = () => {
   const [query, setQuery] = useState(''); // Track the search query
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Function to handle search button click
   const handleSearch = () => {
     if (query.trim()) {
-      console.log('Search query:', query); // Log the query (can replace with actual API call)
       // Add logic to fetch search results from backend here
+      /*dispatch(searchMovies(query))
+        .unwrap()
+        .then((result) => dispatch(searchMovieDatabase(result)));*/
+      dispatch(updateSearchQuery(query));
       navigate('/search');
     }
   };

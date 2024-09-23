@@ -7,3 +7,7 @@ div {
 .appContainer {
   display: flex;
 }
+
+.poster {
+  width: 200px;
+}
