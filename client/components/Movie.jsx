@@ -39,23 +39,31 @@ const Movie = ({
     console.log('onActionClick engaged');
     console.log('Comment is: ' + comment);
     if (comment) {
-      console.log('Valid comment found. Sending post request');
+      console.log('Valid comment found:' + comment);
+      const commentCopy = comment;
       const movie = {
         title: title,
         overview: description,
         release_date: release,
         poster_path: poster,
       };
+      const reqBody = {
+        movie: movie,
+        id: 2,
+        comment: comment,
+        rating: null,
+      };
       //const id = useSelector((state) => state.auth.user.id);
-      dispatch(addWatchedMovie(movie, 1, comment, rating))
+      dispatch(addWatchedMovie(reqBody /*movie, 1, commentCopy, rating*/))
         .unwrap()
         .then(() => navigate('/App'));
     }
   }
 
   let userComment = '';
+  console.log(savedComment);
   if (savedComment) {
-    userComment = savedCommentcomment;
+    userComment = savedComment;
   }
 
   return (

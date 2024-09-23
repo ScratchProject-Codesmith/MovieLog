@@ -1,9 +1,8 @@
-const { Pool } = require("pg");
-
+const { Pool } = require('pg');
 
 // Your Supabase connection string
 const connectionString =
-  "postgresql://postgres.yxwqzeiplckxvmqyfdch:oiDeEVRbFuQNITA8@aws-0-us-west-1.pooler.supabase.com:6543/postgres";
+  'postgresql://postgres.yxwqzeiplckxvmqyfdch:oiDeEVRbFuQNITA8@aws-0-us-west-1.pooler.supabase.com:6543/postgres';
 
 // Create a new pool using the connection string
 const pool = new Pool({
@@ -28,7 +27,7 @@ const pool = new Pool({
 
 module.exports = {
   query: (text, params, callback) => {
-    console.log("executed query", text);
+    //console.log("executed query", text);
     return pool.query(text, params, callback);
   },
 };

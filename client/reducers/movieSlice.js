@@ -18,7 +18,7 @@ export const searchMovies = createAsyncThunk(
 export const getWatchedMovies = createAsyncThunk(
   'movies/watchedMovies',
   async (id) => {
-    const response = await fetch(`database/movie/getInfo/1`);
+    const response = await fetch(`database/movie/getInfo/2`);
     if (!response.ok) {
       throw new Error('Cannot retrieve movie watched list');
     }
@@ -30,21 +30,22 @@ export const getWatchedMovies = createAsyncThunk(
 
 export const addWatchedMovie = createAsyncThunk(
   'movies/postWatchedMovie',
-  async (movie, user_id, comment, rating) => {
-    console.log('Posting new movie to watched list');
+  async (reqBody) => {
+    console.log('Sending comment: ' + reqBody.comment);
+    console.log('UserID = ' + reqBody.id);
     const response = await fetch(`database/movie/`, {
       headers: {
         'Content-Type': 'application/json',
       },
       method: 'POST',
       body: JSON.stringify({
-        title: movie.title,
-        overview: movie.overview,
-        release_date: movie.release_date,
-        poster_path: movie.poster_path,
-        user_id: 1,
-        comment: comment,
-        rating: rating,
+        title: reqBody.movie.title,
+        overview: reqBody.movie.overview,
+        release_date: reqBody.movie.release_date,
+        poster_path: reqBody.movie.poster_path,
+        user_id: 2,
+        comment: reqBody.comment,
+        rating: reqBody.rating,
       }),
     });
     if (!response.ok) {

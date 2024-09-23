@@ -1,6 +1,6 @@
-const db = require("../model.js");
-const jwt = require("jsonwebtoken"); // this is the token creator for auth.
-const bcrypt = require("bcrypt");
+const db = require('../model.js');
+const jwt = require('jsonwebtoken'); // this is the token creator for auth.
+const bcrypt = require('bcrypt');
 
 //testing db queries
 // const test = async () => {
@@ -22,7 +22,7 @@ databaseController.addUser = async (req, res, next) => {
   const params = [firstName, lastName, username, hashedPassword];
   try {
     const result = await db.query(text, params);
-    console.log("newUserFromDB", result.rows[0]);
+    //console.log('newUserFromDB', result.rows[0]);
     res.locals.newUser = result.rows[0];
     return next();
   } catch (error) {
@@ -41,10 +41,10 @@ databaseController.verifyUser = async (req, res, next) => {
   try {
     const user = await db.query(text, params);
     if (!user || !(await bcrypt.compare(password, user.rows[0].password))) {
-      return res.status(401).json({ error: "invalid username/password" });
+      return res.status(401).json({ error: 'invalid username/password' });
     }
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: '1h',
     });
     res.locals.jwt = token;
     res.locals.user = user.rows[0];
@@ -57,13 +57,12 @@ databaseController.verifyUser = async (req, res, next) => {
   }
 };
 
-
-
 databaseController.addMovie = async (req, res, next) => {
   //will take the info from API and store in DB
 
-  const { title, overview, release_date, poster_path, comment, rating } = req.body;
-  console.log(`in add movie - `, req.body)
+  const { title, overview, release_date, poster_path, comment, rating } =
+    req.body;
+  console.log(`in add movie - `, req.body);
   // const params1 = [title];
 
   // const text1 = `SELECT * from movie
@@ -82,9 +81,9 @@ databaseController.addMovie = async (req, res, next) => {
     //   return next();
     // }
     const addedMovie = await db.query(text2, params2);
-    console.log(`want to see comment`,addedMovie.rows[0])
+    console.log(`want to see comment`, addedMovie.rows[0]);
     res.locals.movie_id = addedMovie.rows[0].id;
-    return next()
+    return next();
   } catch (error) {
     return next({
       log: `${error} occurred in databaseControoler.addMovie`,
@@ -95,18 +94,18 @@ databaseController.addMovie = async (req, res, next) => {
 databaseController.PersonMovie = async (req, res, next) => {
   //will take personid from initial req.body and movieid from body after first middleware/addMovie
   const { user_id } = req.body;
-  
+
+  // const newid = parseInt(id, 10);
 
   const movie_id = res.locals.movie_id;
-   const params = [user_id, movie_id];
+  const params = [user_id, movie_id];
 
   // if (typeof movie_id === String){
   //   const newid = parseInt(id, 10);
   //   console.log(newid);
   // }
 
-
-   console.log(`in personMovie req.body`, params);
+  console.log(`in personMovie req.body`, params);
   const text = `INSERT INTO person_movie (person_id, movie_id) 
                 VALUES($1,$2) RETURNING *`;
 
@@ -114,18 +113,16 @@ databaseController.PersonMovie = async (req, res, next) => {
     const result = await db.query(text, params);
 
     // res.locals.movie = result.rows[0].movie_id;
-    console.log('in try block of person movie', result.rows[0])
+    //console.log('in try block of person movie', result.rows[0]);
     //already returning movieid on res.locals from previous middleware
-    res.locals.personmovie = result.rows[0]
+    res.locals.personmovie = result.rows[0];
     return next();
   } catch (error) {
     return next({
-      log: "error occured in PersonMovie middleware ",
+      log: 'error occured in PersonMovie middleware ',
     });
   }
 };
-
-
 
 //shifted all this into getMovieInfo
 databaseController.getToWatchList = async (req, res, next) => {
@@ -139,16 +136,18 @@ databaseController.getToWatchList = async (req, res, next) => {
     const toWatchList = await db.query(text, params);
     if (toWatchList.rows.length > 0) {
       res.locals.toWatchList = toWatchList;
-      console.log(toWatchList)
+      console.log(toWatchList);
       return next();
     } else {
+
       return res.status(404).json([])
+
     }
   } catch (error) {
     return next({
       log: `${error} occurred in databaseController.getList`,
       status: 500,
-      message: {error : `an error occurred while retrieving to watch list`}
+      message: { error: `an error occurred while retrieving to watch list` },
     });
   }
 };
@@ -157,13 +156,13 @@ databaseController.getToWatchList = async (req, res, next) => {
 databaseController.getMovieInfo = async (req, res, next) => {
   const { id } = req.params;
 
-console.log(req.params)
-const newid = parseInt(id, 10);
-console.log(newid)
+  //console.log(req.params);
+  const newid = parseInt(id, 10);
+  //console.log(newid);
 
   // const text = `SELECT * from movie
   //             WHERE movie.id = $1`;
-    const text = `SELECT * FROM movie m
+  const text = `SELECT * FROM movie m
                 JOIN person_movie pm ON m.id = pm.movie_id
                 WHERE pm.person_id = $1`;
 
@@ -172,11 +171,15 @@ console.log(newid)
   try {
     const movieInfo = await db.query(text, params);
 
+
     if (movieInfo.rows.length === 0){
       return res.status(200).json([])
+
+    // console.log(movieInfo.rows[0])
+
     }
     res.locals.movieInfo = movieInfo.rows;
-    console.log(`movieinfo`, res.locals.movieInfo)
+    console.log(`movieinfo`, res.locals.movieInfo);
     return next();
   } catch (error) {
     return next({
@@ -185,7 +188,6 @@ console.log(newid)
   }
 };
 
-
-//could add delete operation on movieList - delete * person_movie pm where person_id = 1 and movie_id = 2 
+//could add delete operation on movieList - delete * person_movie pm where person_id = 1 and movie_id = 2
 
 module.exports = databaseController;
