@@ -188,3 +188,7 @@ input[type='text'] {
     height: 300px;
   }
 }
+
+.poster {
+  width: 200px;
+}
