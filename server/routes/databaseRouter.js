@@ -32,7 +32,7 @@ router.post(
   databaseController.PersonMovie,
   (req, res) => {
     //when user clicks correct movie, will add movie to db, and then add to "toWatchList" person movie join talbe
-    //will need personID and movieID
+    //will need username and movieID
     return res.status(200).json(res.locals.movie);
   }
 );
