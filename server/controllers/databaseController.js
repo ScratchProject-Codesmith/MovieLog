@@ -57,27 +57,31 @@ databaseController.verifyUser = async (req, res, next) => {
   }
 };
 
+
+
+
 databaseController.addMovie = async (req, res, next) => {
   //will take the info from API and store in DB
-  const { title, overview, release_date, poster_path } = req.body;
-  const params1 = [title];
+  const { title, overview, release_date, poster_path, comment, rating } = req.body;
+  // const params1 = [title];
 
-  const text1 = `SELECT * from movie
-                  WHERE movie.title = $1`;
+  // const text1 = `SELECT * from movie
+  //                 WHERE movie.title = $1`;
 
-  const params2 = [title, overview, release_date, poster_path];
-  const text2 = `INSERT INTO movie (title, overview, release_date, poster_path)
+  const params2 = [title, overview, release_date, poster_path, comment, rating];
+  const text2 = `INSERT INTO movie (title, overview, release_date, poster_path, comment, rating)
                 VALUES($1,$2, $3, $4)
                 RETURNING *`;
 
   try {
-    const verifyMovie = await db.query(text1, params1);
-    if (verifyMovie.rows.length > 0) {
-      res.locals.movie_id = verifyMovie.rows[0].id;
-      return next();
-    }
+    // const verifyMovie = await db.query(text1, params1);
+    // if (verifyMovie.rows.length > 0) {
+    //   res.locals.movie_id = verifyMovie.rows[0].id;
+    //   return next();
+    // }
     const addedMovie = await db.query(text2, params2);
     res.locals.movie_id = addedMovie.rows[0].id;
+    return next()
   } catch (error) {
     return next({
       log: `${error} occurred in databaseControoler.addMovie`,
@@ -87,14 +91,15 @@ databaseController.addMovie = async (req, res, next) => {
 
 databaseController.PersonMovie = async (req, res, next) => {
   //will take personid from initial req.body and movieid from body after first middleware/addMovie
-  const { movie_id, person_username } = req.body;
-  const params = [movie_id, person_username];
+  const { movie_id, person_id } = req.body;
+  const params = [movie_id, person_id];
   const text = `INSERT INTO person_movie (person_id, movie_id) 
                 VALUES($1,$2)`;
 
   try {
     const result = await db.query(text, params);
     // res.locals.movie = result.rows[0].movie_id;
+    console.log(result.rows[0])
     //already returning movieid on res.locals from previous middleware
     return next();
   } catch (error) {
@@ -143,10 +148,10 @@ console.log(newid)
 
   try {
     const movieInfo = await db.query(text, params);
-    console.log(movieInfo.rows[0])
-    // if (movieInfo.rows.length === 0){
-    //   return res.status(404).json({error: 'movie not found'})
-    // }
+    // console.log(movieInfo.rows[0])
+    if (movieInfo.rows.length === 0){
+      return res.status(404).json({error: 'movie not found'})
+    }
     res.locals.movieInfo = movieInfo.rows[0]
     console.log(res.locals.movieInfo)
     return next();

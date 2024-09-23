@@ -25,17 +25,23 @@ router.post("/signup", databaseController.addUser, async (req, res) => {
   return res.status(200).json(res.locals.newUser);
 });
 
-//route to post new movie - database/movie
+
+
+
+
+//route to post new movie and add person_movie relation - database/movie
 router.post(
   "/movie",
   databaseController.addMovie,
   databaseController.PersonMovie,
   (req, res) => {
     //when user clicks correct movie, will add movie to db, and then add to "toWatchList" person movie join talbe
-    //will need username and movieID
+    
     return res.status(200).json(res.locals.movie);
   }
 );
+
+
 
 //route to get movies based on user
 router.post("/movie/list", databaseController.getToWatchList, (req, res) => {
