@@ -2,7 +2,7 @@ const db = require("../model.js");
 const jwt = require("jsonwebtoken"); // this is the token creator for auth.
 const bcrypt = require("bcrypt");
 
-////testing db queries
+// //testing db queries
 // const test = async () => {
 //   const name = "aitczak";
 //   const text = `SELECT * FROM person `;
@@ -40,7 +40,7 @@ databaseController.verifyUser = async (req, res, next) => {
 
   try {
     const user = await db.query(text, params);
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user || !(await bcrypt.compare(password, user.rows[0].password))) {
       return res.status(401).json({ error: "invalid username/password" });
     }
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
@@ -62,7 +62,7 @@ databaseController.addMovie = async (req, res, next) => {
   const { title, overview, release_date, poster_path } = req.body;
   const params1 = [title];
 
-  const text1 = `SELECT from movie
+  const text1 = `SELECT * from movie
                   WHERE movie.title = $1`;
 
   const params2 = [title, overview, release_date, poster_path];
@@ -106,20 +106,24 @@ databaseController.PersonMovie = async (req, res, next) => {
 
 databaseController.getToWatchList = async (req, res, next) => {
   const { person_id } = req.body;
-  const text = `SELECT * FROM person_movie
-    WHERE person._id = $1`;
+  const text = `SELECT * FROM movie m
+                JOIN person_movie pm ON m.id = pm.movie_id
+                WHERE pm.person_id = $1`;
   const params = [person_id];
 
   try {
     const toWatchList = await db.query(text, params);
     if (toWatchList.rows.length > 0) {
-      res.locals.toWatchList = toWatchList[rows];
+      res.locals.toWatchList = toWatchList;
       return next();
-    } else
-      throw new Error(console.log(`this person has no current To Watch List`));
+    } else {
+      return res.status(404).json({error: `this person has no movies in their watch list`})
+    }
   } catch (error) {
     return next({
       log: `${error} occurred in databaseController.getList`,
+      status: 500,
+      message: {error : `an error occurred while retrieving to watch list`}
     });
   }
 };
@@ -135,7 +139,10 @@ databaseController.getMovieInfo = async (req, res, next) => {
 
   try {
     const movieInfo = await db.query(text, params);
-    res.locals.movieInfo = movieInfo.rows[0];
+    if (movieInfo.rows.length === 0){
+      return res.status(404).json({error: 'movie not found'})
+    }
+    res.locals.movieInfo = movieInfo.rows[0]
     return next();
   } catch (error) {
     return next({
@@ -143,5 +150,8 @@ databaseController.getMovieInfo = async (req, res, next) => {
     });
   }
 };
+
+
+//could add delete operation on movieList - delete * person_movie pm where person_id = 1 and movie_id = 2 
 
 module.exports = databaseController;
