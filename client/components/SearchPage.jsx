@@ -61,8 +61,6 @@ const SearchPage = () => {
     },
   });*/
 
-  useEffect(() => {});
-
   //Dispatch search for query
   const dispatch = useDispatch();
   const query = useSelector((state) => state.movies.query);
@@ -71,7 +69,8 @@ const SearchPage = () => {
     dispatch(searchMovies(query))
       .unwrap()
       .then((results) => {
-        const items = results.moviesWithTitle.results;
+        console.log(results);
+        const items = results.results;
         /*for (let i = 0; i < items.length; i++) {
           movies.push(<Movie />);
           console.log('adding movie');
@@ -96,13 +95,7 @@ const SearchPage = () => {
       // Page title for the search interface
       <h1>Search for Movies</h1>
       // Search bar area where the user can type their search query
-      <div className='searchbar'>
-        <input
-          type='text'
-          placeholder='Search for movies...' // Placeholder text in the search bar input
-          value={query}
-          onChange={handleInputChange} // Updates query state as the user types
-        />
+      
         <button onClick={handleSearch}>Search</button> // Triggers the search on
         click
       </div>

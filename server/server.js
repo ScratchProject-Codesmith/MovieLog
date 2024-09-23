@@ -3,7 +3,7 @@
 const path = require('path');
 const express = require('express');
 const apiRoutes = require('./routes/api');
-const databaseRouter = require("./routes/databaseRouter");
+const databaseRouter = require('./routes/databaseRouter');
 const cors = require('cors');
 
 const app = express();
@@ -14,9 +14,8 @@ const tmdbApiController = require('./controllers/tmdbApiController');
 app.use(cors());
 app.use(express.json());
 
-
 //all routes related to database queries
-app.use("/database", databaseRouter);
+app.use('/database', databaseRouter);
 
 //app.use for API routes... just adding auth stuff - Sam
 // app.use('/api', apiRoutes);
@@ -26,11 +25,10 @@ app.get('/', tmdbApiController.getConfig, (req, res) => {
   return res.status(200).send({ config: res.locals.config });
 });
 
-app.get('/movies', tmdbApiController.getMovieDetails, (req, res) => {
+app.get('/movies/:query', tmdbApiController.getMovieDetails, (req, res) => {
   console.log(res.locals.moviesWithTitle);
   return res.status(200).json(res.locals.moviesWithTitle);
 });
-
 
 app.use((err, req, res, next) => {
   const defaultErr = {
@@ -49,8 +47,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
-
-
-
 
 module.exports = app;

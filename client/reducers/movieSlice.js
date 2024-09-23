@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const searchMovies = createAsyncThunk(
   'movies/searchMovies',
   async (query) => {
-    const response = await fetch(`/movies`);
+    const response = await fetch(`/movies/${query}`);
     if (!response.ok) {
       throw new Error('Cannot retrieve movie search results');
     }
@@ -38,12 +38,9 @@ export const movieSlice = createSlice({
       return;
     },
     updateSearchQuery: (state, action) => {
-      console.log('Updating searchquery to: ' + action.payload);
       state.query = action.payload;
     },
     searchMovieDatabase: (state, action) => {
-      console.log('In searchMovieDatabase');
-      console.log(action.payload);
       state.searchResults = action.payload;
     }, //Maybe don't need?
   },
