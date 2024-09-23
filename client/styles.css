@@ -58,34 +58,34 @@ body {
   flex-direction: row; 
   gap: 10px;
   justify-content: center;
-  align-items: center; /* Center buttons horizontally */
-  margin-top: 5px; /* Space above buttons */
+  align-items: center; 
+  margin-top: 5px; 
 }
 
 .login-button {
-  padding: 10px 20px; /* Button padding */
-  border: none; /* Remove default border */
-  border-radius: 5px; /* Rounded button corners */
-  background-color: steelblue; /* Bootstrap primary color */
-  color: white; /* White text */
-  cursor: pointer; /* Pointer on hover */
-  margin-bottom: 10px; /* Space between buttons */
-  transition: background-color 0.3s; /* Smooth transition */
+  padding: 10px 20px; 
+  border: none; 
+  border-radius: 5px; 
+  background-color: steelblue; 
+  color: white; 
+  cursor: pointer; 
+  margin-bottom: 10px; 
+  transition: background-color 0.3s; 
 }
 .signup-button {
-  padding: 10px 20px; /* Button padding */
-  border: none; /* Remove default border */
-  border-radius: 5px; /* Rounded button corners */
-  background-color: rgb(202, 52, 52); /* Bootstrap primary color */
-  color: white; /* White text */
-  cursor: pointer; /* Pointer on hover */
-  margin-bottom: 10px; /* Space between buttons */
-  transition: background-color 0.3s; /* Smooth transition */
+  padding: 10px 20px; 
+  border: none; 
+  border-radius: 5px; 
+  background-color: rgb(202, 52, 52); 
+  color: white; 
+  cursor: pointer; 
+  margin-bottom: 10px; 
+  transition: background-color 0.3s; 
 }
 
 .login-button:hover,
 .signup-button:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+  background-color: #0056b3; 
 }
 
 .app-container {
