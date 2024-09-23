@@ -84,6 +84,7 @@ databaseController.addMovie = async (req, res, next) => {
   try {
     // const verifyMovie = await db.query(text1, params1);
     // if (verifyMovie.rows.length > 0) {
+    //   console.log('in verifyMovie try', verifyMovie.rows[0])
     //   res.locals.movie_id = verifyMovie.rows[0].id;
     //   return next();
     // }
@@ -101,16 +102,18 @@ databaseController.addMovie = async (req, res, next) => {
 databaseController.PersonMovie = async (req, res, next) => {
   //will take personid from initial req.body and movieid from body after first middleware/addMovie
   const { user_id } = req.body;
-  console.log(`in personMovie req.body`,user_id)
+ 
   // const newid = parseInt(id, 10);
   const movie_id = res.locals.movie_id;
   // console.log(newid);
   const params = [user_id, movie_id];
+   console.log(`in personMovie req.body`, params);
   const text = `INSERT INTO person_movie (person_id, movie_id) 
                 VALUES($1,$2) RETURNING *`;
 
   try {
     const result = await db.query(text, params);
+
     // res.locals.movie = result.rows[0].movie_id;
     console.log('in try block of person movie', result.rows[0])
     //already returning movieid on res.locals from previous middleware
@@ -158,8 +161,11 @@ console.log(req.params)
 const newid = parseInt(id, 10);
 console.log(newid)
 
-  const text = `SELECT * from movie
-              WHERE movie.id = $1`;
+  // const text = `SELECT * from movie
+  //             WHERE movie.id = $1`;
+    const text = `SELECT * FROM movie m
+                JOIN person_movie pm ON m.id = pm.movie_id
+                WHERE pm.person_id = $1`;
 
   const params = [newid];
 
@@ -169,8 +175,8 @@ console.log(newid)
     if (movieInfo.rows.length === 0){
       return res.status(404).json({error: 'movie not found'})
     }
-    res.locals.movieInfo = movieInfo.rows[0]
-    console.log(res.locals.movieInfo)
+    res.locals.movieInfo = movieInfo.rows;
+    console.log(`movieinfo`, res.locals.movieInfo)
     return next();
   } catch (error) {
     return next({
