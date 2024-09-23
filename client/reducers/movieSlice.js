@@ -19,10 +19,28 @@ export const getWatchedMovies = createAsyncThunk(
   async (id) => {
     const response = await fetch(`database/movie/getInfo/${id}`);
     if (!response.ok) {
-      throw new Error('Cannot retrieve movie search results');
+      throw new Error('Cannot retrieve movie watched list');
     }
     const movies = response.json();
-    console.log('getWatchedMovies retrieved: ' + movies);
+    console.log(movies);
+    return movies;
+  }
+);
+
+export const addWatchedMovie = createAsyncThunk(
+  'movies/postWatchedMovie',
+  async (comment, rating) => {
+    const response = await fetch(`database/movie/`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({ comment: comment, rating: rating }),
+    });
+    if (!response.ok) {
+      throw new Error('Cannot add movie to watched list');
+    }
+    const movies = response.json();
     return movies;
   }
 );
@@ -41,9 +59,9 @@ export const movieSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    addWatchedMovie: (state, action) => {
+    /*addWatchedMovie: (state, action) => {
       return;
-    },
+    },*/
     addToWatchMovie: (state, action) => {
       return;
     },
@@ -60,7 +78,6 @@ export const movieSlice = createSlice({
 });
 
 export const {
-  addWatchedMovie,
   addToWatchMovie,
   addMovieComment,
   updateSearchQuery,

@@ -1,6 +1,7 @@
 import React from 'react';
+import SearchedMovieInput from './SearchedMovieInput';
 
-const Movie = ({ title, description, release, poster }) => {
+const Movie = ({ title, description, release, poster, searchResult }) => {
   //onst { id, title, comments } = movie;
   /*<li className="movie-card">
       <div className="movie-image-placeholder">
@@ -28,6 +29,8 @@ const Movie = ({ title, description, release, poster }) => {
         </button>
       </div>
     </li>*/
+  const searchInput = [];
+  if (searchResult) searchInput.push(<SearchedMovieInput />);
   const image = 'https://image.tmdb.org/t/p/original/' + poster;
   return (
     <div>
@@ -35,6 +38,7 @@ const Movie = ({ title, description, release, poster }) => {
       <section>{title}</section>
       <section>{description}</section>
       <section>{release}</section>
+      <section>{searchInput}</section>
     </div>
   );
 };
