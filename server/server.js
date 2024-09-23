@@ -4,13 +4,14 @@ const path = require('path');
 const express = require('express');
 const apiRoutes = require('./routes/api');
 const databaseRouter = require("./routes/databaseRouter");
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
 
 const tmdbApiController = require('./controllers/tmdbApiController');
 
-
+app.use(cors());
 app.use(express.json());
 
 
@@ -27,7 +28,7 @@ app.get('/', tmdbApiController.getConfig, (req, res) => {
 
 app.get('/movies', tmdbApiController.getMovieDetails, (req, res) => {
   console.log(res.locals.moviesWithTitle);
-  return res.status(200).json({ moviesWithTitle: res.locals.moviesWithTitle });
+  return res.status(200).json(res.locals.moviesWithTitle);
 });
 
 

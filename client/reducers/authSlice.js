@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 //Async thunk to handle login... this will set JWT in local storage
 export const login = createAsyncThunk('auth/login', async (credentials) => {
-  const response = await fetch('localhost:3000/database/login', {
+  const response = await fetch('http://localhost:3000/database/login', {
     //MIGHT NEED TO CHANGE THIS LATER
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -17,7 +17,7 @@ export const login = createAsyncThunk('auth/login', async (credentials) => {
 
 //Async thunk to handle signup.. this will also store the JWT locally
 export const signup = createAsyncThunk('auth/signup', async (userData) => {
-  const response = await fetch('localhost:3000/database/signup', {
+  const response = await fetch('http://localhost:3000/database/signup', {
     //MIGHT NEED TO CHANGE THIS!
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

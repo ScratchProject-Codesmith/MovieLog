@@ -1,4 +1,4 @@
-div {
+/* div {
   border: 1px solid black;
   margin: 5px;
   padding: 5px;
@@ -6,8 +6,185 @@ div {
 
 .appContainer {
   display: flex;
+} */
+
+/* Global reset and box sizing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.poster {
-  width: 200px;
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
+.app-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.to-watch-list,
+.watched-list {
+  flex: 1;
+  margin: 10px;
+  height: 500px;
+  overflow-y: auto;
+}
+
+.to-watch-list {
+  max-width: 45%;
+}
+
+.watched-list {
+  max-width: 45%;
+}
+
+.movie-card {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.movie-image-placeholder {
+  width: 100px;
+  height: 150px;
+  background-color: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.movie-info {
+  margin-left: 15px;
+  flex: 1;
+}
+
+.movie-info h3 {
+  margin-bottom: 5px;
+}
+
+.movie-info p {
+  margin-bottom: 10px;
+}
+
+.movie-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.arrow-buttons {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.arrow-btn {
+  background-color: #ccc;
+  border: none;
+  margin: 3px 0;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.arrow-btn:hover {
+  background-color: #aaa;
+}
+
+.action-btn {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  background-color: #0056b3;
+}
+
+input[type='text'] {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.logout-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #ff4040;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #cc3333;
+}
+
+.searchbar {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 20px;
+}
+
+.searchbar input[type='text'] {
+  width: calc(100% - 60px);
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.searchbar button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.searchbar button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .app-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .to-watch-list,
+  .watched-list {
+    max-width: 100%;
+    height: 300px;
+  }
 }

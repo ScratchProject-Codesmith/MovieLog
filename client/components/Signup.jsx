@@ -29,16 +29,16 @@ const Signup = () => {
         setUsername(''); // Clear the username input
         setPassword(''); // Clear the password input
         //on successful creation... navigate back to login
-        navigate('/login');
+        navigate('/');
       })
       .catch((err) => {
         setError(err.message);
       });
   };
 
-  const handleTest = () => {
-    navigate('/')
-  }
+  // const handleTest = () => {
+  //   navigate('/')
+  // }
 
   return (
     <div className='loginBox'>
@@ -74,7 +74,6 @@ const Signup = () => {
           required
         />
         <button type='submit'>Signup</button>
-        <button onClick={handleTest}>TESTROUTE</button>
       </form>
     </div>
   );

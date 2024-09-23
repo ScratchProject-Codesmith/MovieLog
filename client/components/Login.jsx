@@ -29,7 +29,7 @@ const Login = () => {
         setUsername(''); // Clear the username input
         setPassword(''); // Clear the password input
         //navigate to home page
-        navigate('/home?'); ////NEED NAME OF HOME ROUTE////
+        navigate('/App'); ////NEED NAME OF HOME ROUTE////
       })
       .catch((error) => {
         console.log('ERROR ON LOGIN COMPONENT', error);
@@ -42,9 +42,9 @@ const Login = () => {
     navigate('/signup');
   };
 
-  const handleTestRoute = () => {
-    navigate('/App')
-  }
+  // const handleTestRoute = () => {
+  //   navigate('/App')
+  // }
 
   //Fields:
   //Div with Header for Title
@@ -81,7 +81,6 @@ const Login = () => {
         </button>
       </form>
       <button onClick={handleClick}>Sign Up!</button>
-      <button onClick={handleTestRoute}>ROUTETEST</button>
     </div>
   );
 };

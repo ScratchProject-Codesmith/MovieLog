@@ -28,6 +28,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "babel-loader": "^9.2.1",
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "css-loader": "^7.1.2",
     "dotenv": "^16.4.5",
     "html-webpack-plugin": "^5.6.0",
