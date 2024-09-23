@@ -83,7 +83,7 @@ const SearchPage = () => {
   for (let i = 0; i < searchResults.length; i++) {
     movies.push(
       <Movie
-        title={searchResults[i].original_title}
+        title={searchResults[i].title}
         description={searchResults[i].overview}
         release={searchResults[i].release_date}
         poster={searchResults[i].poster_path}

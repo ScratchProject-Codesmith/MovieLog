@@ -62,13 +62,14 @@ const WatchedList = ({ watchedMovies }) => {
   }
   const movieList = [];
   for (let i = 0; i < watchedMovies.length; i++) {
+    console.log(watchedMovies[i].comment);
     movieList.push(
       <Movie
         title={watchedMovies[i].title}
         description={watchedMovies[i].overview}
         release={watchedMovies[i].release_date}
         poster={watchedMovies[i].poster_path}
-        comment={watchedMovies[i].comment}
+        savedComment={watchedMovies[i].comment}
       />
     );
   }
