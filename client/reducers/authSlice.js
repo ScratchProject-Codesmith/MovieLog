@@ -8,7 +8,7 @@ export const login = createAsyncThunk('auth/login', async (credentials) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials),
   });
-  if (!response.ok) throw new Error('Login Error');
+  if (!response.ok) throw new Error('Invalid Username/Password');
   const data = await response.json();
   //store JWT from frontend
   localStorage.setItem('token', data.token);
@@ -48,6 +48,10 @@ export const authSlice = createSlice({
     logout: (state) => {
       //this will ideally clear the user data
       state.user = null;
+      //reset loading to false
+      state.loading = false;
+      //remove web token from local storage on logout
+      localStorage.removeItem('token');
     },
   },
 
