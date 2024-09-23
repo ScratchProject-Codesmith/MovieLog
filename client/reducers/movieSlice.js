@@ -18,7 +18,7 @@ export const searchMovies = createAsyncThunk(
 export const getWatchedMovies = createAsyncThunk(
   'movies/watchedMovies',
   async (id) => {
-    const response = await fetch(`database/movie/getInfo/2`);
+    const response = await fetch(`database/movie/getInfo/${id}`);
     if (!response.ok) {
       throw new Error('Cannot retrieve movie watched list');
     }
@@ -43,7 +43,7 @@ export const addWatchedMovie = createAsyncThunk(
         overview: reqBody.movie.overview,
         release_date: reqBody.movie.release_date,
         poster_path: reqBody.movie.poster_path,
-        user_id: 2,
+        user_id: reqBody.id,
         comment: reqBody.comment,
         rating: reqBody.rating,
       }),

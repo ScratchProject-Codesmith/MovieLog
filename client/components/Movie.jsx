@@ -21,6 +21,8 @@ const Movie = ({
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(null);
   const dispatch = useDispatch();
+  const userid = useSelector((state) => state.auth.user.id);
+  console.log(userid);
   function onCommentChange(value) {
     setComment(value);
   }
@@ -49,7 +51,7 @@ const Movie = ({
       };
       const reqBody = {
         movie: movie,
-        id: 2,
+        id: userid,
         comment: comment,
         rating: null,
       };
