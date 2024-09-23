@@ -5,10 +5,13 @@ import { Provider } from 'react-redux';
 import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+///import store to use provider.
+import store from '../store/store.js'
 
+//wrapped app in provider passing in the store
 function App() {
   return (
-    <div>
+    <Provider store={store}>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Login />} />
@@ -17,7 +20,7 @@ function App() {
           <Route path='/search' element={<SearchPage />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    </Provider>
   );
 }
 
