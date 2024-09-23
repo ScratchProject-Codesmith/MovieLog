@@ -4,11 +4,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const searchMovies = createAsyncThunk(
   'movies/searchMovies',
   async (query) => {
-    const response = await fetch(`/movies?=${query}`);
+    const response = await fetch(`/movies`);
     if (!response.ok) {
       throw new Error('Cannot retrieve movie search results');
     }
     const movies = response.json();
+    console.log(movies);
     return movies;
   }
 );
@@ -18,8 +19,9 @@ const initialState = {
   watchedMovies: [],
   selectedMovie: null,
   movieComment: '',
-  //searchResults: [],
-  date: new Date(),
+  query: '',
+  searchResults: [],
+  //date: new Date(),
 };
 
 export const movieSlice = createSlice({
@@ -36,9 +38,14 @@ export const movieSlice = createSlice({
       return;
     },
     updateSearchQuery: (state, action) => {
-      return;
+      console.log('Updating searchquery to: ' + action.payload);
+      state.query = action.payload;
     },
-    //searchMovieDatabase: (state, action) => {}, Maybe don't need?
+    searchMovieDatabase: (state, action) => {
+      console.log('In searchMovieDatabase');
+      console.log(action.payload);
+      state.searchResults = action.payload;
+    }, //Maybe don't need?
   },
 });
 

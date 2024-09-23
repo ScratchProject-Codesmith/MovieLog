@@ -1,7 +1,8 @@
 import React from 'react';
-const Movie = ({ movie, onCommentChange, onActionClick, actionLabel, showArrows }) => {
-  return (
-    <li key={movie.id} className="movie-card">
+
+const Movie = ({ title, description, release, poster }) => {
+  //onst { id, title, comments } = movie;
+  /*<li className="movie-card">
       <div className="movie-image-placeholder">
         <img src="https://via.placeholder.com/100x150" alt="Movie poster" />
       </div>
@@ -26,7 +27,15 @@ const Movie = ({ movie, onCommentChange, onActionClick, actionLabel, showArrows 
           {actionLabel}
         </button>
       </div>
-    </li>
+    </li>*/
+  const image = 'https://image.tmdb.org/t/p/original/' + poster;
+  return (
+    <div>
+      <img className='poster' src={image} />
+      <section>{title}</section>
+      <section>{description}</section>
+      <section>{release}</section>
+    </div>
   );
 };
 
