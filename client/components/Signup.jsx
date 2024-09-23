@@ -41,12 +41,14 @@ const Signup = () => {
   // }
 
   return (
-    <div className='loginBox'>
+    <div className='login-page'>
+      <div className='box'>
       <h2>Signup</h2>
       {error && <p className='error'>{error}</p>}
       <form id='signupForm' onSubmit={handleSubmit}>
         <input
           type='text'
+          className='input-field'
           placeholder='First Name'
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
@@ -54,6 +56,7 @@ const Signup = () => {
         />
         <input
           type='text'
+          className='input-field'
           placeholder='Last Name'
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
@@ -61,6 +64,7 @@ const Signup = () => {
         />
         <input
           type='text'
+          className='input-field'
           placeholder='Username'
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -68,13 +72,17 @@ const Signup = () => {
         />
         <input
           type='password'
+          className='input-field'
           placeholder='Password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type='submit'>Signup</button>
+        <div className='button-container'>
+        <button type='submit' className='login-button'>Signup!</button>
+        </div>
       </form>
+      </div>
     </div>
   );
 };
