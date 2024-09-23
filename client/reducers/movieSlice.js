@@ -14,6 +14,19 @@ export const searchMovies = createAsyncThunk(
   }
 );
 
+export const getWatchedMovies = createAsyncThunk(
+  'movies/watchedMovies',
+  async (id) => {
+    const response = await fetch(`database/movie/getInfo/${id}`);
+    if (!response.ok) {
+      throw new Error('Cannot retrieve movie search results');
+    }
+    const movies = response.json();
+    console.log('getWatchedMovies retrieved: ' + movies);
+    return movies;
+  }
+);
+
 const initialState = {
   moviesToWatch: [],
   watchedMovies: [],
