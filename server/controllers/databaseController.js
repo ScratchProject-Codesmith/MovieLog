@@ -130,19 +130,25 @@ databaseController.getToWatchList = async (req, res, next) => {
 
 //add query to get movie info
 databaseController.getMovieInfo = async (req, res, next) => {
-  const { id } = req.body;
+  const { id } = req.params;
 
-  const text = `SELECT from movie
+console.log(req.params)
+const newid = parseInt(id, 10);
+console.log(newid)
+
+  const text = `SELECT * from movie
               WHERE movie.id = $1`;
 
-  const params = [id];
+  const params = [newid];
 
   try {
     const movieInfo = await db.query(text, params);
-    if (movieInfo.rows.length === 0){
-      return res.status(404).json({error: 'movie not found'})
-    }
+    console.log(movieInfo.rows[0])
+    // if (movieInfo.rows.length === 0){
+    //   return res.status(404).json({error: 'movie not found'})
+    // }
     res.locals.movieInfo = movieInfo.rows[0]
+    console.log(res.locals.movieInfo)
     return next();
   } catch (error) {
     return next({

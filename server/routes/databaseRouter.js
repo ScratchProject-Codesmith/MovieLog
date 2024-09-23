@@ -44,8 +44,8 @@ router.post("/movie/list", databaseController.getToWatchList, (req, res) => {
 });
 //
 
-router.post("/movie/getInfo", databaseController.getMovieInfo, (req, res) => {
-  return res.status.json(res.locals.movieInfo);
+router.get("/movie/getInfo/:id", databaseController.getMovieInfo, (req, res) => {
+  return res.status(200).json(res.locals.movieInfo);
 });
 
 module.exports = router;
