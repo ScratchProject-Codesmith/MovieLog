@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SearchedMovieInput from './SearchedMovieInput';
 import { addWatchedMovie } from '../reducers/movieSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Movie = ({
   title,
@@ -19,6 +19,7 @@ const Movie = ({
   const image = `https://image.tmdb.org/t/p/original/${poster}`;
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(null);
+  const dispatch = useDispatch();
   function onCommentChange(value) {
     setComment(value);
   }
@@ -32,7 +33,10 @@ const Movie = ({
   }
 
   function onActionClick() {
+    console.log('onActionClick engaged');
+    console.log('Comment is: ' + comment);
     if (comment) {
+      console.log('Valid comment found. Sending post request');
       const movie = {
         title: title,
         overview: description,
@@ -40,7 +44,7 @@ const Movie = ({
         poster_path: poster,
       };
       //const id = useSelector((state) => state.auth.user.id);
-      addWatchedMovie(movie, 1, comment, rating);
+      dispatch(addWatchedMovie(movie, 1, comment, rating));
     }
   }
 

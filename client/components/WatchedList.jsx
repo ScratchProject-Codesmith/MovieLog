@@ -53,6 +53,12 @@ const WatchedList = ({ watchedMovies }) => {
       </ul>
     </div>
   );*/
+  if (!watchedMovies) {
+    watchedMovies.title = 'N/A';
+    watchedMovies.overview = 'N/A';
+    watchedMovies.release_date = 'N/A';
+    watchedMovies.poster_path = 'N/A';
+  }
   return (
     <div>
       <Movie
