@@ -53,20 +53,29 @@ const WatchedList = ({ watchedMovies }) => {
       </ul>
     </div>
   );*/
+  console.log(watchedMovies);
   if (!watchedMovies) {
     watchedMovies.title = 'N/A';
     watchedMovies.overview = 'N/A';
     watchedMovies.release_date = 'N/A';
     watchedMovies.poster_path = 'N/A';
   }
+  const movieList = [];
+  for (let i = 0; i < watchedMovies.length; i++) {
+    movieList.push(
+      <Movie
+        title={watchedMovies[i].title}
+        description={watchedMovies[i].overview}
+        release={watchedMovies[i].release_date}
+        poster={watchedMovies[i].poster_path}
+        comment={watchedMovies[i].comment}
+      />
+    );
+  }
   return (
     <div>
-      <Movie
-        title={watchedMovies.title}
-        description={watchedMovies.overview}
-        release={watchedMovies.release_date}
-        poster={watchedMovies.poster_path}
-      />
+      <section>Watch List</section>
+      {movieList}
     </div>
   );
 };

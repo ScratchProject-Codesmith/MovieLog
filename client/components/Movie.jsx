@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import SearchedMovieInput from './SearchedMovieInput';
 import { addWatchedMovie } from '../reducers/movieSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Movie = ({
   title,
   description,
   release,
   poster,
-  comments,
+  savedComment,
   /*onCommentChange,
   onMoveUp,
   onMoveDown,
@@ -32,6 +33,8 @@ const Movie = ({
     setRating(false);
   }
 
+  const navigate = useNavigate();
+
   function onActionClick() {
     console.log('onActionClick engaged');
     console.log('Comment is: ' + comment);
@@ -44,8 +47,15 @@ const Movie = ({
         poster_path: poster,
       };
       //const id = useSelector((state) => state.auth.user.id);
-      dispatch(addWatchedMovie(movie, 1, comment, rating));
+      dispatch(addWatchedMovie(movie, 1, comment, rating))
+        .unwrap()
+        .then(() => navigate('/App'));
     }
+  }
+
+  let userComment = '';
+  if (savedComment) {
+    userComment = savedCommentcomment;
   }
 
   return (
@@ -56,9 +66,9 @@ const Movie = ({
       <div className='movie-info'>
         <h3>{title}</h3>
         <p>Date: {release}</p>
+        <p>Your comments: {userComment}</p>
         <input
           type='text'
-          value={comments}
           placeholder='Your comments'
           onChange={(e) => onCommentChange(e.target.value)}
         />
