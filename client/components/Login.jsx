@@ -58,13 +58,14 @@ const Login = () => {
   //if loading, "LOGGING IN..." else 'Login'
 
   return (
-    <div className='LoginBox'>
-      <div id="Logincard">
-      <h2>MovieLog</h2>
+    <div className='login-page'>
+      <div className="box">
+      <h2 className='movielog-title'>MovieLog</h2>
       {error && <p className='error'>{error}</p>}
       <form id='loginForm' onSubmit={handleSubmit}>
         <input
           type='text'
+          className='input-field'
           placeholder='Username'
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -72,16 +73,20 @@ const Login = () => {
         />
         <input
           type='password'
+          className='input-field'
           placeholder='Password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type='submit' disabled={loading}>
+        <div className='button-container'>
+        <button className="login-button" type='submit' disabled={loading}>
           {loading ? 'Loggin in...' : 'Login'}
         </button>
+        <button className="signup-button" onClick={handleClick}>Sign Up!</button>
+        </div>
       </form>
-      <button onClick={handleClick}>Sign Up!</button>
+      
       </div>
     </div>
   );
