@@ -2,7 +2,7 @@ const db = require("../model.js");
 const jwt = require("jsonwebtoken"); // this is the token creator for auth.
 const bcrypt = require("bcrypt");
 
-// //testing db queries
+//testing db queries
 // const test = async () => {
 //   const name = "aitczak";
 //   const text = `SELECT * FROM person `;
@@ -87,8 +87,8 @@ databaseController.addMovie = async (req, res, next) => {
 
 databaseController.PersonMovie = async (req, res, next) => {
   //will take personid from initial req.body and movieid from body after first middleware/addMovie
-  const { movie_id, person_id } = req.body;
-  const params = [movie_id, person_id];
+  const { movie_id, person_username } = req.body;
+  const params = [movie_id, person_username];
   const text = `INSERT INTO person_movie (person_id, movie_id) 
                 VALUES($1,$2)`;
 
@@ -130,12 +130,12 @@ databaseController.getToWatchList = async (req, res, next) => {
 
 //add query to get movie info
 databaseController.getMovieInfo = async (req, res, next) => {
-  const { movie_id } = req.body;
+  const { id } = req.body;
 
   const text = `SELECT from movie
               WHERE movie.id = $1`;
 
-  const params = [movie_id];
+  const params = [id];
 
   try {
     const movieInfo = await db.query(text, params);
