@@ -142,7 +142,7 @@ databaseController.getToWatchList = async (req, res, next) => {
       console.log(toWatchList)
       return next();
     } else {
-      return res.status(404).json({error: `this person has no movies in their watch list`})
+      return res.status(404).json([])
     }
   } catch (error) {
     return next({
@@ -173,7 +173,7 @@ console.log(newid)
     const movieInfo = await db.query(text, params);
 
     if (movieInfo.rows.length === 0){
-      return res.status(404).json({error: 'movie not found'})
+      return res.status(200).json([])
     }
     res.locals.movieInfo = movieInfo.rows;
     console.log(`movieinfo`, res.locals.movieInfo)
