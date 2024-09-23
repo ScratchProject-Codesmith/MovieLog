@@ -2,35 +2,44 @@ import React, { useState } from 'react';
 import Movie from './Movie';
 
 const ToWatchList = () => {
-  const [toWatchMovies, setToWatchMovies] = useState([
+  const [moviesToWatch, setMoviesToWatch] = useState([
     { id: 1, title: 'Movie 1', comments: '', date: new Date().toLocaleDateString() },
     { id: 2, title: 'Movie 2', comments: '', date: new Date().toLocaleDateString() },
     { id: 3, title: 'Movie 3', comments: '', date: new Date().toLocaleDateString() },
   ]);
 
-  const handleMarkAsWatched = (id) => {
-    setToWatchMovies(toWatchMovies.filter((movie) => movie.id !== id));
+  const moveUp = (index) => {
+    if (index === 0) return;
+    const newMovies = [...moviesToWatch];
+    [newMovies[index - 1], newMovies[index]] = [newMovies[index], newMovies[index - 1]];
+    setMoviesToWatch(newMovies);
+  };
+
+  const moveDown = (index) => {
+    if (index === moviesToWatch.length - 1) return;
+    const newMovies = [...moviesToWatch];
+    [newMovies[index + 1], newMovies[index]] = [newMovies[index], newMovies[index + 1]];
+    setMoviesToWatch(newMovies);
   };
 
   const handleCommentChange = (id, newComment) => {
-    setToWatchMovies(
-      toWatchMovies.map((movie) =>
-        movie.id === id ? { ...movie, comments: newComment } : movie
-      )
+    const updatedMovies = moviesToWatch.map((movie) =>
+      movie.id === id ? { ...movie, comments: newComment } : movie
     );
+    setMoviesToWatch(updatedMovies);
   };
 
   return (
     <div className="to-watch-list">
       <h2>Want to Watch</h2>
       <ul>
-        {toWatchMovies.map((movie) => (
+        {moviesToWatch.map((movie, index) => (
           <Movie
             key={movie.id}
             movie={movie}
             onCommentChange={handleCommentChange}
-            onActionClick={handleMarkAsWatched}
-            actionLabel="Mark as Watched"
+            onMoveUp={() => moveUp(index)}
+            onMoveDown={() => moveDown(index)}
             showArrows={true}
           />
         ))}
@@ -40,3 +49,4 @@ const ToWatchList = () => {
 };
 
 export default ToWatchList;
+
