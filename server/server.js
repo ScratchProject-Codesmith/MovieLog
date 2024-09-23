@@ -4,13 +4,14 @@ const path = require('path');
 const express = require('express');
 const apiRoutes = require('./routes/api');
 const databaseRouter = require("./routes/databaseRouter");
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
 
 const tmdbApiController = require('./controllers/tmdbApiController');
 
-
+app.use(cors());
 app.use(express.json());
 
 
