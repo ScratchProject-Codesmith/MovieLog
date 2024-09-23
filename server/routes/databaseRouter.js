@@ -1,9 +1,9 @@
-require("dotenv").config();
-const express = require("express");
-const path = require("path");
+require('dotenv').config();
+const express = require('express');
+const path = require('path');
 const databaseController = require(path.resolve(
   __dirname,
-  "../controllers/databaseController.js"
+  '../controllers/databaseController.js'
 ));
 
 const router = express.Router();
@@ -11,7 +11,7 @@ const router = express.Router();
 //for routes coming to localhost:3000/database/
 
 //route to post database/login
-router.post("/login", databaseController.verifyUser, (req, res) => {
+router.post('/login', databaseController.verifyUser, (req, res) => {
   //will be getting request from authslice via credentials on req.body
   return res.status(200).json({
     token: res.locals.jwt,
@@ -20,7 +20,7 @@ router.post("/login", databaseController.verifyUser, (req, res) => {
 });
 
 //post to database/signup
-router.post("/signup", databaseController.addUser, async (req, res) => {
+router.post('/signup', databaseController.addUser, async (req, res) => {
   //will be getting info from authslice via userinfo on req.body
   return res.status(200).json(res.locals.newUser);
 });
@@ -31,7 +31,7 @@ router.post("/signup", databaseController.addUser, async (req, res) => {
 
 //route to post new movie and add person_movie relation - database/movie
 router.post(
-  "/movie",
+  '/movie',
   databaseController.addMovie,
   databaseController.PersonMovie,
   (req, res) => {
@@ -44,14 +44,18 @@ router.post(
 
 
 //route to get movies based on user
-router.post("/movie/list", databaseController.getToWatchList, (req, res) => {
+router.post('/movie/list', databaseController.getToWatchList, (req, res) => {
   //will need personID
-  return res.status.json(res.locals.toWatchList);
+  return res.status(200).json(res.locals.toWatchList);
 });
 //
 
-router.get("/movie/getInfo/:id", databaseController.getMovieInfo, (req, res) => {
-  return res.status(200).json(res.locals.movieInfo);
-});
+router.get(
+  '/movie/getInfo/:id',
+  databaseController.getMovieInfo,
+  (req, res) => {
+    return res.status(200).json(res.locals.movieInfo);
+  }
+);
 
 module.exports = router;

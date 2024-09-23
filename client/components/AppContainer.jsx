@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout as logoutAction } from '../reducers/authSlice';
 import { useNavigate } from 'react-router-dom';
@@ -11,11 +11,16 @@ const AppContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
+  const [watchedMovies, setWatchedMovies] = useState({});
+  useEffect(() => {
+    dispatch(getWatchedMovies(user.id))
+      .unwrap()
+      .then((movies) => {
+        console.log(movies);
+        setWatchedMovies(movies);
+      });
+  }, []);
 
-  dispatch(getWatchedMovies(user.id))
-    .unwrap()
-    .then((movies) => console.log('Successfully retrieved movies: ' + movies));
   // Function to handle logout action
   const handleLogout = () => {
     dispatch(logoutAction());
@@ -31,7 +36,7 @@ const AppContainer = () => {
         {/* List of movies the user wants to watch (ToWatchList) */}
         <ToWatchList />
         {/* List of movies the user has already watched (WatchedList) */}
-        <WatchedList />
+        <WatchedList watchedMovies={watchedMovies} />
       </div>
       {/* Button to log the user out */}
       <button className='logout-btn' onClick={handleLogout}>

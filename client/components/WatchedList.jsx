@@ -1,11 +1,26 @@
 import React, { useState } from 'react';
 import Movie from './Movie';
 
-const WatchedList = () => {
-  const [watchedMovies, setWatchedMovies] = useState([
-    { id: 1, title: 'Movie 4', comments: '', date: new Date().toLocaleDateString() },
-    { id: 2, title: 'Movie 5', comments: '', date: new Date().toLocaleDateString() },
-    { id: 3, title: 'Movie 6', comments: '', date: new Date().toLocaleDateString() },
+const WatchedList = ({ watchedMovies }) => {
+  /*const [watchedMovies, setWatchedMovies] = useState([
+    {
+      id: 1,
+      title: 'Movie 4',
+      comments: '',
+      date: new Date().toLocaleDateString(),
+    },
+    {
+      id: 2,
+      title: 'Movie 5',
+      comments: '',
+      date: new Date().toLocaleDateString(),
+    },
+    {
+      id: 3,
+      title: 'Movie 6',
+      comments: '',
+      date: new Date().toLocaleDateString(),
+    },
   ]);
 
   const handleCommentChange = (id, newComment) => {
@@ -18,10 +33,10 @@ const WatchedList = () => {
 
   const handleInfoClick = (id) => {
     console.log(`Show info for movie with id: ${id}`);
-  };
+  };*/
 
-  return (
-    <div className="watched-list">
+  /*return (
+    <div className='watched-list'>
       <h2>Movies Watched</h2>
       <ul>
         {watchedMovies.map((movie) => (
@@ -30,11 +45,22 @@ const WatchedList = () => {
             movie={movie}
             onCommentChange={handleCommentChange}
             onActionClick={handleInfoClick}
-            actionLabel="Info"
+            actionLabel='Info'
             showArrows={false}
+            title={watchedMovies.title}
           />
         ))}
       </ul>
+    </div>
+  );*/
+  return (
+    <div>
+      <Movie
+        title={watchedMovies.title}
+        description={watchedMovies.overview}
+        release={watchedMovies.release_date}
+        poster={watchedMovies.poster_path}
+      />
     </div>
   );
 };

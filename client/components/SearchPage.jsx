@@ -87,6 +87,7 @@ const SearchPage = () => {
         description={searchResults[i].overview}
         release={searchResults[i].release_date}
         poster={searchResults[i].poster_path}
+        searchResult={true}
       />
     );
     console.log('adding movie');
