@@ -6,7 +6,7 @@ const Movie = ({ title, description, release, poster, comments, onCommentChange,
   return (
     <li className="movie-card">
       <div className="movie-image-placeholder">
-        <img src={image} alt="Movie poster" />
+        <img src={image} alt="Movie poster" className="movie-poster" />
       </div>
       <div className="movie-info">
         <h3>{title}</h3>
@@ -34,3 +34,5 @@ const Movie = ({ title, description, release, poster, comments, onCommentChange,
 };
 
 export default Movie;
+
+
