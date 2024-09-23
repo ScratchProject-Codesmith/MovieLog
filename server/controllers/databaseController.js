@@ -58,11 +58,19 @@ databaseController.verifyUser = async (req, res, next) => {
 };
 
 
-
+//  title: movie.title,
+//         overview: movie.overview,
+//         release_date: movie.release_date,
+//         poster_path: movie.poster_path,
+//         user_id: user_id,
+//         comment: comment,
+//         rating: rating,
 
 databaseController.addMovie = async (req, res, next) => {
   //will take the info from API and store in DB
+
   const { title, overview, release_date, poster_path, comment, rating } = req.body;
+  // console.log(req.body)
   // const params1 = [title];
 
   // const text1 = `SELECT * from movie
@@ -70,7 +78,7 @@ databaseController.addMovie = async (req, res, next) => {
 
   const params2 = [title, overview, release_date, poster_path, comment, rating];
   const text2 = `INSERT INTO movie (title, overview, release_date, poster_path, comment, rating)
-                VALUES($1,$2, $3, $4)
+                VALUES($1,$2, $3, $4, $5, $6)
                 RETURNING *`;
 
   try {
@@ -80,6 +88,7 @@ databaseController.addMovie = async (req, res, next) => {
     //   return next();
     // }
     const addedMovie = await db.query(text2, params2);
+    console.log(addedMovie.rows[0].id)
     res.locals.movie_id = addedMovie.rows[0].id;
     return next()
   } catch (error) {
@@ -91,16 +100,21 @@ databaseController.addMovie = async (req, res, next) => {
 
 databaseController.PersonMovie = async (req, res, next) => {
   //will take personid from initial req.body and movieid from body after first middleware/addMovie
-  const { movie_id, person_id } = req.body;
-  const params = [movie_id, person_id];
+  const { user_id } = req.body;
+  console.log(`in personMovie req.body`,user_id)
+  // const newid = parseInt(id, 10);
+  const movie_id = res.locals.movie_id;
+  // console.log(newid);
+  const params = [user_id, movie_id];
   const text = `INSERT INTO person_movie (person_id, movie_id) 
-                VALUES($1,$2)`;
+                VALUES($1,$2) RETURNING *`;
 
   try {
     const result = await db.query(text, params);
     // res.locals.movie = result.rows[0].movie_id;
-    console.log(result.rows[0])
+    console.log('in try block of person movie', result.rows[0])
     //already returning movieid on res.locals from previous middleware
+    res.locals.personmovie = result.rows[0]
     return next();
   } catch (error) {
     return next({
@@ -108,6 +122,9 @@ databaseController.PersonMovie = async (req, res, next) => {
     });
   }
 };
+
+
+
 
 databaseController.getToWatchList = async (req, res, next) => {
   const { person_id } = req.body;
