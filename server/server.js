@@ -27,7 +27,7 @@ app.get('/', tmdbApiController.getConfig, (req, res) => {
 
 app.get('/movies', tmdbApiController.getMovieDetails, (req, res) => {
   console.log(res.locals.moviesWithTitle);
-  return res.status(200).json({ moviesWithTitle: res.locals.moviesWithTitle });
+  return res.status(200).json(res.locals.moviesWithTitle);
 });
 
 
